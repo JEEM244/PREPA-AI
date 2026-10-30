@@ -1,0 +1,45 @@
+# User data
+data/
+userdata/
+conversations/
+logs/
+cache/
+*.sqlite
+*.db
+
+# Downloaded runtimes and model weights
+runtime/
+models/
+*.gguf
+*.bin
+*.model
+
+# Secrets
+.env
+.env.*
+!.env.example
+secrets/
+*api_key*
+*credentials*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# Build artifacts
+dist/
+build/
+*.exe
+*.dll
+*.pyd
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
