@@ -2,21 +2,31 @@
 
 ## Estado
 
-La CLI tiene una estructura modular y pruebas unitarias. Para conversar requiere Windows, Python 3.10+ (o runtime portable pendiente), un binario compatible de `llama.cpp` y un modelo GGUF. Los binarios y pesos no se distribuyen dentro de Git.
+La CLI está modularizada y cuenta con pruebas unitarias. Para conversar necesita Windows, el ejecutable portable `PREPA-AI.exe` (o Python 3.10+), un binario compatible de `llama.cpp` y un modelo GGUF. El ejecutable de PREPA AI se puede construir con PyInstaller o mediante el flujo de GitHub Actions para Windows.
 
-## Estructura esperada
+## Estructura del paquete
 
 ```text
 PREPA-AI/
-├─ cli/prepa_ai/       # aplicación, configuración, motor y chat
-├─ runtime/            # llama-server.exe y futuro Python portable
-├─ models/             # modelos GGUF
-├─ config.json         # configuración local (no versionada)
+├─ PREPA-AI.exe
+├─ prepa-ai.bat
+├─ config.json
 ├─ config.json.example
-└─ prepa-ai.bat
+├─ runtime/llama-server.exe
+└─ models/modelo.gguf
 ```
 
-Copia `config.json.example` a `config.json`. Coloca `llama-server.exe` en `runtime/` y el modelo GGUF en `models/`.
+Copia `config.json.example` a `config.json`. Coloca `llama-server.exe` en `runtime/` y el modelo GGUF en `models/`. Los binarios y pesos no se guardan en Git.
+
+## Construir el ejecutable
+
+En Windows con Python 3.10+:
+
+```powershell
+.\scripts\build.ps1
+```
+
+El paquete se prepara en `dist/package/`. También puedes ejecutar manualmente el workflow **Build PREPA AI portable CLI** desde la pestaña Actions del repositorio y descargar el artefacto de Windows.
 
 ## Uso
 
@@ -26,7 +36,15 @@ Desde PowerShell o CMD:
 .\prepa-ai.bat
 ```
 
-Comandos: `/ayuda`, `/estado`, `/limpiar`, `/modelo` y `/salir`. También reconoce `/help`, `/status`, `/clear` y `/exit`.
+Comandos disponibles:
+
+- `/ayuda`: mostrar comandos.
+- `/estado`: revisar si el motor responde.
+- `/limpiar`: borrar la conversación de la memoria.
+- `/modelo`: mostrar la ruta del modelo.
+- `/diagnostico`: revisar archivos y requisitos.
+- `/version`: mostrar la versión.
+- `/salir`: detener el motor y cerrar.
 
 ## Privacidad y red
 
@@ -40,4 +58,4 @@ Desde la raíz:
 py -3 -m unittest discover -s tests -v
 ```
 
-El motor real debe probarse en Windows con los binarios y el modelo compatibles que se usarán en la USB.
+Las pruebas unitarias no sustituyen una prueba real en Windows con llama.cpp y el modelo elegido. Consulta también [Uso desde USB](USB.md), [Portabilidad](PORTABILITY.md) y [Solución de problemas](TROUBLESHOOTING.md).
