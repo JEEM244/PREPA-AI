@@ -1,0 +1,35 @@
+name: Build PREPA AI portable CLI
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install build dependency
+        run: python -m pip install -r requirements-build.txt
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
+      - name: Build executable
+        run: python -m PyInstaller --clean --noconfirm PREPA-AI.spec
+      - name: Assemble portable folder
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist/package/runtime,dist/package/models | Out-Null
+          Copy-Item dist/PREPA-AI.exe dist/package/PREPA-AI.exe
+          Copy-Item prepa-ai.bat dist/package/prepa-ai.bat
+          Copy-Item config.json.example dist/package/config.json.example
+          Copy-Item README.md dist/package/README.txt
+          Copy-Item docs/CLI.md dist/package/INSTRUCCIONES.txt
+      - name: Upload portable package
+        uses: actions/upload-artifact@v4
+        with:
+          name: PREPA-AI-Windows-x64
+          path: dist/package/
+          if-no-files-found: error
