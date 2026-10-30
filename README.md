@@ -2,54 +2,40 @@
 
 Asistente educativo portátil para Windows. La primera interfaz es la **CLI**, pensada para PowerShell y CMD, y para funcionar sin internet una vez que el motor y el modelo estén disponibles localmente.
 
-> **Estado:** primera versión de la CLI en desarrollo. El código base y las pruebas unitarias ya están añadidos. Todavía faltan el runtime portable, el binario de llama.cpp y el modelo GGUF.
+> **Estado:** CLI modular, comandos, diagnóstico, pruebas unitarias y flujo de compilación portable preparados. La ejecución real todavía requiere incorporar y probar llama.cpp y un modelo GGUF compatible.
 
-## Objetivos
+## Inicio rápido
 
-- Ejecutar un modelo GGUF local mediante `llama.cpp`.
-- Conversar desde la terminal sin depender de páginas web.
-- Mantener el historial solo en memoria durante la sesión.
-- No subir modelos, conversaciones, claves API ni datos personales a Git.
-- Ejecutarse desde una carpeta local o USB, sujeto a pruebas de compatibilidad.
-- No intentar evadir filtros ni controles de la red escolar.
+Consulta [docs/CLI.md](docs/CLI.md). Para preparar el paquete:
 
-## Inicio
+1. Ejecuta `scripts/build.ps1` en Windows con Python 3.10+.
+2. El ejecutable se genera en `dist/package/`.
+3. Coloca `llama-server.exe` en `runtime/` y un modelo GGUF en `models/`.
+4. Copia `config.json.example` como `config.json`.
+5. Ejecuta `prepa-ai.bat`.
 
-Consulta [docs/CLI.md](docs/CLI.md). Resumen:
+También se define un flujo de compilación en GitHub Actions para Windows x64.
 
-1. Colocar `llama-server.exe` en `runtime/`.
-2. Colocar un modelo GGUF compatible en `models/`.
-3. Copiar `config.json.example` a `config.json`.
-4. Ejecutar `prepa-ai.bat` desde CMD o PowerShell.
+## Comandos
 
-Comandos: `/ayuda`, `/estado`, `/limpiar`, `/modelo`, `/salir`.
+`/ayuda`, `/estado`, `/limpiar`, `/modelo`, `/diagnostico`, `/version` y `/salir`.
 
-## Diseño técnico
+## Diseño y privacidad
 
-- Motor: `llama.cpp`.
-- Modelo inicial previsto: Qwen2.5 1.5B Instruct GGUF, pendiente de validar.
-- CLI: Python 3.10+ en desarrollo; runtime portable pendiente.
-- Comunicación: API local en `127.0.0.1`.
-- Sin dependencias Python externas para el cliente básico.
+- Motor local llama.cpp con modelo GGUF.
+- API del motor enlazada únicamente a `127.0.0.1`.
+- El historial vive solo en memoria y se descarta al cerrar.
+- No se guardan claves API ni conversaciones en disco.
+- No se intenta evadir filtros ni controles de la red escolar.
 
-El rendimiento depende del equipo, el modelo y la compilación de llama.cpp. No se garantiza que funcione con fluidez en todas las computadoras escolares.
+## Documentación
 
-## Privacidad
+- [CLI](docs/CLI.md)
+- [Uso desde USB](docs/USB.md)
+- [Portabilidad](docs/PORTABILITY.md)
+- [Modelo local](docs/MODEL.md)
+- [Solución de problemas](docs/TROUBLESHOOTING.md)
+- [Privacidad](docs/PRIVACY.md)
+- [Lista de verificación de v1.0](docs/RELEASE_CHECKLIST.md)
 
-El historial vive solo en memoria y se descarta al cerrar la aplicación. El servidor escucha exclusivamente en `127.0.0.1`. Consulta [docs/PRIVACY.md](docs/PRIVACY.md).
-
-## Seguridad
-
-- No guardar claves API en equipos compartidos.
-- No ejecutar comandos generados por el modelo.
-- No abrir el servidor en la red local.
-- No intentar evadir filtros escolares.
-- Revisar las licencias de los componentes de terceros antes de redistribuirlos.
-
-## Pruebas
-
-```powershell
-py -3 -m unittest discover -s tests -v
-```
-
-GitHub Actions ejecuta las pruebas unitarias en Windows.
+La compatibilidad y el rendimiento deben probarse en cada equipo. El código y las pruebas no sustituyen una prueba real con el motor, el modelo y las computadoras escolares.
