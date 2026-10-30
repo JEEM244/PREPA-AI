@@ -1,0 +1,10 @@
+{
+  "server_exe": "runtime/llama-server.exe",
+  "model": "models/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+  "host": "127.0.0.1",
+  "port": 8080,
+  "context_size": 2048,
+  "threads": 4,
+  "temperature": 0.7,
+  "max_tokens": 512
+}
