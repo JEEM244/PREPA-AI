@@ -1,6 +1,10 @@
 @echo off
 setlocal
 cd /d "%~dp0"
+if exist "%~dp0PREPA-AI.exe" (
+  "%~dp0PREPA-AI.exe" %*
+  exit /b %errorlevel%
+)
 set "PYTHONPATH=%~dp0cli;%PYTHONPATH%"
 if exist "%~dp0runtime\python\python.exe" (
   "%~dp0runtime\python\python.exe" -m prepa_ai
@@ -17,5 +21,5 @@ if not errorlevel 1 (
   exit /b %errorlevel%
 )
 echo No se encontro Python.
-echo Se necesita el runtime portable en runtime\python\ o Python 3.10+ instalado.
+echo Usa PREPA-AI.exe o coloca Python portable en runtime\python\.
 exit /b 1
