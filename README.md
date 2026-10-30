@@ -1,60 +1,52 @@
 # PREPA AI
 
-Asistente educativo portátil para Windows, con dos interfaces (CLI y web) que comparten un único motor local.
+Asistente educativo portátil para Windows. La primera interfaz en desarrollo es la **CLI**, pensada para funcionar desde PowerShell o CMD sin depender de una página web.
 
-> **Estado:** estructura inicial en diseño. Todavía no es una aplicación funcional ni incluye ejecutables o modelos.
+> **Estado:** primera base del CLI añadida. Para conversar todavía requiere el runtime de llama.cpp y un modelo GGUF colocados localmente. El runtime portable de Python y el empaquetado como EXE están pendientes.
 
 ## Objetivos
 
 - Ejecutar un modelo local GGUF mediante `llama.cpp`.
-- Compartir el mismo servidor local entre la CLI y la interfaz web.
-- Mantener conversaciones, preferencias y caché en almacenamiento local.
+- Usar PREPA AI desde la consola, incluso cuando no haya internet.
+- Mantener el historial de la sesión en memoria y no guardar conversaciones en disco por defecto.
 - No subir modelos, conversaciones, claves API ni datos personales a Git.
-- Permitir limpiar los datos de PREPA AI de la carpeta de trabajo actual.
-- Ofrecer proveedores online opcionales únicamente cuando la red los permita y su uso esté autorizado.
+- Permitir limpiar los datos de PREPA AI sin tocar archivos ajenos.
+- No intentar evadir filtros o controles de la red escolar.
 
-## Diseño previsto
+## CLI: primer arranque
+
+Consulta [docs/CLI.md](docs/CLI.md) para ver requisitos, estructura de carpetas y comandos.
+
+1. Coloca `llama-server.exe` en `runtime/`.
+2. Coloca un modelo GGUF compatible en `models/`.
+3. Copia `config.json.example` a `config.json`.
+4. Ejecuta `prepa-ai.bat` desde PowerShell o CMD.
+
+Comandos disponibles dentro de la CLI: `/ayuda`, `/estado`, `/limpiar` y `/salir`.
+
+## Diseño técnico
 
 - Motor: `llama.cpp` (CPU como opción base).
-- Modelo inicial: Qwen2.5 1.5B Instruct GGUF, sujeto a pruebas de rendimiento y licencia.
-- Backend y CLI: Python.
-- Interfaz web: HTML, CSS y JavaScript servidos localmente.
-- Comunicación: API HTTP en loopback (`127.0.0.1`).
+- Modelo inicial previsto: Qwen2.5 1.5B Instruct GGUF, sujeto a pruebas de rendimiento y licencia.
+- CLI: Python 3.10+ en esta primera versión.
+- Comunicación: API local de llama.cpp en `127.0.0.1`.
 - Distribución: código en GitHub; runtime y modelos descargados por separado.
 
-## Requisitos previstos
+La aplicación todavía no incluye el runtime ni el modelo. El rendimiento debe probarse en cada computadora; no se garantiza que un modelo local funcione con fluidez en equipos escolares de recursos limitados.
 
-- Windows 10/11 x64.
-- Git para Windows.
-- Permiso para ejecutar aplicaciones portátiles en el equipo.
-- Espacio suficiente para el runtime y el modelo.
-- Python no será requisito global: se evaluará incluir un runtime portable o distribuir un ejecutable.
+## Privacidad
 
-La compatibilidad y el rendimiento se deben probar en cada equipo. No se garantiza que un modelo local funcione con fluidez en computadoras escolares de recursos limitados.
+El historial de la primera versión solo vive en la memoria de la sesión y desaparece al cerrar PREPA AI. No se guarda en disco. El motor escucha únicamente en `127.0.0.1` y la aplicación no necesita internet para inferir una vez que el motor y el modelo están disponibles.
 
-## Inicio del desarrollo
-
-Consulta [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) para conocer los componentes y [docs/PRIVACY.md](docs/PRIVACY.md) para el comportamiento de limpieza.
-
-## Privacidad y limpieza
-
-PREPA AI debe guardar los datos de usuario fuera del repositorio Git, en un directorio local controlado por la aplicación. La limpieza debe:
-
-1. detener únicamente los procesos iniciados por PREPA AI;
-2. mostrar qué datos se eliminarán;
-3. pedir confirmación explícita;
-4. borrar solamente rutas pertenecientes al directorio de datos de PREPA AI;
-5. conservar el código y el repositorio por defecto.
-
-La opción de desinstalación podrá borrar también la copia local del proyecto, pero nunca debe borrar el repositorio remoto de GitHub ni archivos ajenos al proyecto.
+Consulta [docs/PRIVACY.md](docs/PRIVACY.md) para las reglas de limpieza y [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) para la arquitectura general.
 
 ## Seguridad
 
 - No guardar claves API en el repositorio ni en equipos compartidos.
 - No ejecutar comandos arbitrarios generados por el modelo.
-- No abrir el servidor en la red local: usar `127.0.0.1`.
+- No abrir el servidor en la red local.
 - No intentar evadir filtros o controles de la red escolar.
-- Revisar las licencias del motor, modelo y dependencias antes de redistribuirlos.
+- Revisar las licencias del motor y del modelo antes de redistribuirlos.
 
 ## Licencia
 
