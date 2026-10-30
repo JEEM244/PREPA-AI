@@ -1,53 +1,55 @@
 # PREPA AI
 
-Asistente educativo portátil para Windows. La primera interfaz en desarrollo es la **CLI**, pensada para funcionar desde PowerShell o CMD sin depender de una página web.
+Asistente educativo portátil para Windows. La primera interfaz es la **CLI**, pensada para PowerShell y CMD, y para funcionar sin internet una vez que el motor y el modelo estén disponibles localmente.
 
-> **Estado:** primera base del CLI añadida. Para conversar todavía requiere el runtime de llama.cpp y un modelo GGUF colocados localmente. El runtime portable de Python y el empaquetado como EXE están pendientes.
+> **Estado:** primera versión de la CLI en desarrollo. El código base y las pruebas unitarias ya están añadidos. Todavía faltan el runtime portable, el binario de llama.cpp y el modelo GGUF.
 
 ## Objetivos
 
-- Ejecutar un modelo local GGUF mediante `llama.cpp`.
-- Usar PREPA AI desde la consola, incluso cuando no haya internet.
-- Mantener el historial de la sesión en memoria y no guardar conversaciones en disco por defecto.
+- Ejecutar un modelo GGUF local mediante `llama.cpp`.
+- Conversar desde la terminal sin depender de páginas web.
+- Mantener el historial solo en memoria durante la sesión.
 - No subir modelos, conversaciones, claves API ni datos personales a Git.
-- Permitir limpiar los datos de PREPA AI sin tocar archivos ajenos.
-- No intentar evadir filtros o controles de la red escolar.
+- Ejecutarse desde una carpeta local o USB, sujeto a pruebas de compatibilidad.
+- No intentar evadir filtros ni controles de la red escolar.
 
-## CLI: primer arranque
+## Inicio
 
-Consulta [docs/CLI.md](docs/CLI.md) para ver requisitos, estructura de carpetas y comandos.
+Consulta [docs/CLI.md](docs/CLI.md). Resumen:
 
-1. Coloca `llama-server.exe` en `runtime/`.
-2. Coloca un modelo GGUF compatible en `models/`.
-3. Copia `config.json.example` a `config.json`.
-4. Ejecuta `prepa-ai.bat` desde PowerShell o CMD.
+1. Colocar `llama-server.exe` en `runtime/`.
+2. Colocar un modelo GGUF compatible en `models/`.
+3. Copiar `config.json.example` a `config.json`.
+4. Ejecutar `prepa-ai.bat` desde CMD o PowerShell.
 
-Comandos disponibles dentro de la CLI: `/ayuda`, `/estado`, `/limpiar` y `/salir`.
+Comandos: `/ayuda`, `/estado`, `/limpiar`, `/modelo`, `/salir`.
 
 ## Diseño técnico
 
-- Motor: `llama.cpp` (CPU como opción base).
-- Modelo inicial previsto: Qwen2.5 1.5B Instruct GGUF, sujeto a pruebas de rendimiento y licencia.
-- CLI: Python 3.10+ en esta primera versión.
-- Comunicación: API local de llama.cpp en `127.0.0.1`.
-- Distribución: código en GitHub; runtime y modelos descargados por separado.
+- Motor: `llama.cpp`.
+- Modelo inicial previsto: Qwen2.5 1.5B Instruct GGUF, pendiente de validar.
+- CLI: Python 3.10+ en desarrollo; runtime portable pendiente.
+- Comunicación: API local en `127.0.0.1`.
+- Sin dependencias Python externas para el cliente básico.
 
-La aplicación todavía no incluye el runtime ni el modelo. El rendimiento debe probarse en cada computadora; no se garantiza que un modelo local funcione con fluidez en equipos escolares de recursos limitados.
+El rendimiento depende del equipo, el modelo y la compilación de llama.cpp. No se garantiza que funcione con fluidez en todas las computadoras escolares.
 
 ## Privacidad
 
-El historial de la primera versión solo vive en la memoria de la sesión y desaparece al cerrar PREPA AI. No se guarda en disco. El motor escucha únicamente en `127.0.0.1` y la aplicación no necesita internet para inferir una vez que el motor y el modelo están disponibles.
-
-Consulta [docs/PRIVACY.md](docs/PRIVACY.md) para las reglas de limpieza y [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) para la arquitectura general.
+El historial vive solo en memoria y se descarta al cerrar la aplicación. El servidor escucha exclusivamente en `127.0.0.1`. Consulta [docs/PRIVACY.md](docs/PRIVACY.md).
 
 ## Seguridad
 
-- No guardar claves API en el repositorio ni en equipos compartidos.
-- No ejecutar comandos arbitrarios generados por el modelo.
+- No guardar claves API en equipos compartidos.
+- No ejecutar comandos generados por el modelo.
 - No abrir el servidor en la red local.
-- No intentar evadir filtros o controles de la red escolar.
-- Revisar las licencias del motor y del modelo antes de redistribuirlos.
+- No intentar evadir filtros escolares.
+- Revisar las licencias de los componentes de terceros antes de redistribuirlos.
 
-## Licencia
+## Pruebas
 
-Pendiente de elección. Los componentes de terceros conservan sus propias licencias.
+```powershell
+py -3 -m unittest discover -s tests -v
+```
+
+GitHub Actions ejecuta las pruebas unitarias en Windows.
