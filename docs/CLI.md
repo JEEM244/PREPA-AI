@@ -2,20 +2,21 @@
 
 ## Estado
 
-Primera base del cliente de terminal. Requiere Windows, Python 3.10+ y un binario compatible de `llama.cpp` (`llama-server.exe`). El runtime portable para no depender de Python instalado sigue pendiente.
+La CLI tiene una estructura modular y pruebas unitarias. Para conversar requiere Windows, Python 3.10+ (o runtime portable pendiente), un binario compatible de `llama.cpp` y un modelo GGUF. Los binarios y pesos no se distribuyen dentro de Git.
 
 ## Estructura esperada
 
 ```text
 PREPA-AI/
-├─ cli/prepa_ai.py
-├─ runtime/llama-server.exe
-├─ models/qwen2.5-1.5b-instruct-q4_k_m.gguf
-├─ config.json
+├─ cli/prepa_ai/       # aplicación, configuración, motor y chat
+├─ runtime/            # llama-server.exe y futuro Python portable
+├─ models/             # modelos GGUF
+├─ config.json         # configuración local (no versionada)
+├─ config.json.example
 └─ prepa-ai.bat
 ```
 
-Copia `config.json.example` como `config.json` y ajusta las rutas si cambian. El motor y el modelo no se incluyen en Git.
+Copia `config.json.example` a `config.json`. Coloca `llama-server.exe` en `runtime/` y el modelo GGUF en `models/`.
 
 ## Uso
 
@@ -25,15 +26,18 @@ Desde PowerShell o CMD:
 .\prepa-ai.bat
 ```
 
-Comandos:
-
-- `/ayuda`: muestra los comandos.
-- `/estado`: consulta el estado del motor.
-- `/limpiar`: borra el historial de la sesión actual (memoria RAM).
-- `/salir`: detiene el motor iniciado por PREPA AI y cierra la CLI.
+Comandos: `/ayuda`, `/estado`, `/limpiar`, `/modelo` y `/salir`. También reconoce `/help`, `/status`, `/clear` y `/exit`.
 
 ## Privacidad y red
 
-El servidor se inicia en `127.0.0.1`, no se expone a otros equipos y no realiza llamadas a servicios de IA por internet. El historial actual vive solo en memoria y se pierde al cerrar. No se guardan conversaciones en disco en esta primera versión. No se ejecutan comandos escritos por el modelo.
+El servidor se configura exclusivamente en `127.0.0.1`. La CLI no consulta proveedores de IA por internet. El historial se conserva únicamente en memoria; `/limpiar` lo reinicia y cerrar la aplicación lo descarta. No se escriben conversaciones ni claves API en disco.
 
-Usa la herramienta únicamente donde esté permitido. No intenta saltarse bloqueos de red ni controles del equipo.
+## Pruebas
+
+Desde la raíz:
+
+```powershell
+py -3 -m unittest discover -s tests -v
+```
+
+El motor real debe probarse en Windows con los binarios y el modelo compatibles que se usarán en la USB.
