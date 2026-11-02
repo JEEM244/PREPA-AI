@@ -24,6 +24,8 @@ jobs:
           if (!(Test-Path 'dist/PREPA-AI.exe')) { throw 'No se generó PREPA-AI.exe' }
           $file = Get-Item 'dist/PREPA-AI.exe'
           if ($file.Length -lt 100000) { throw 'El ejecutable parece incompleto.' }
+          & 'dist/PREPA-AI.exe' --version
+          if ($LASTEXITCODE -ne 0) { throw 'El ejecutable no pudo iniciarse.' }
           Write-Host "PREPA-AI.exe: $($file.Length) bytes"
       - name: Assemble portable folder
         shell: pwsh
@@ -35,6 +37,7 @@ jobs:
           Copy-Item README.md dist/package/README.txt
           Copy-Item docs/CLI.md dist/package/INSTRUCCIONES.txt
           Copy-Item docs/USB.md dist/package/USB.txt
+          Copy-Item docs/ASSETS.md dist/package/COMPONENTES.txt
       - name: Upload portable package
         uses: actions/upload-artifact@v4
         with:
