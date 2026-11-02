@@ -2,23 +2,34 @@
 
 Asistente educativo portátil para Windows. La primera interfaz es la **CLI**, pensada para PowerShell y CMD, y para funcionar sin internet una vez que el motor y el modelo estén disponibles localmente.
 
-> **Estado:** CLI modular, comandos, diagnóstico, pruebas unitarias y flujo de compilación portable preparados. La ejecución real todavía requiere incorporar y probar llama.cpp y un modelo GGUF compatible.
+> **Estado:** CLI modular, pruebas unitarias y compilación automática de un ejecutable Windows comprobadas en GitHub Actions. La ejecución real de inferencia todavía requiere incorporar y probar llama.cpp y un modelo GGUF compatible.
 
-## Inicio rápido
+## Obtener el ejecutable
 
-Consulta [docs/CLI.md](docs/CLI.md). Para preparar el paquete:
+En GitHub abre **Actions → Build PREPA AI portable CLI**, selecciona la ejecución más reciente que haya terminado correctamente y descarga el artefacto `PREPA-AI-Windows-x64`.
 
-1. Ejecuta `scripts/build.ps1` en Windows con Python 3.10+.
-2. El ejecutable se genera en `dist/package/`.
-3. Coloca `llama-server.exe` en `runtime/` y un modelo GGUF en `models/`.
-4. Copia `config.json.example` como `config.json`.
-5. Ejecuta `prepa-ai.bat`.
+También puedes construirlo en Windows con Python 3.10+:
 
-También se define un flujo de compilación en GitHub Actions para Windows x64.
+```powershell
+.\scripts\build.ps1
+```
+
+El paquete local se prepara en `dist/package/`.
+
+## Preparar el motor y el modelo
+
+1. Extrae una compilación confiable de llama.cpp dentro de `runtime/`, conservando sus DLL necesarias.
+2. Coloca el modelo GGUF elegido dentro de `models/`.
+3. Ejecuta `scripts/check-assets.ps1` para comprobar que los archivos estén presentes.
+4. Ejecuta `prepa-ai.bat`. El lanzador crea `config.json` desde el ejemplo si hace falta.
+
+Consulta [docs/ASSETS.md](docs/ASSETS.md) antes de descargar componentes.
 
 ## Comandos
 
-`/ayuda`, `/estado`, `/limpiar`, `/modelo`, `/diagnostico`, `/version` y `/salir`.
+Durante la conversación: `/ayuda`, `/estado`, `/limpiar`, `/modelo`, `/diagnostico`, `/version` y `/salir`.
+
+Antes de iniciar el motor: `PREPA-AI.exe --version`, `PREPA-AI.exe --ayuda` o `PREPA-AI.exe --diagnostico`.
 
 ## Diseño y privacidad
 
@@ -31,6 +42,7 @@ También se define un flujo de compilación en GitHub Actions para Windows x64.
 ## Documentación
 
 - [CLI](docs/CLI.md)
+- [Componentes locales](docs/ASSETS.md)
 - [Uso desde USB](docs/USB.md)
 - [Portabilidad](docs/PORTABILITY.md)
 - [Modelo local](docs/MODEL.md)
@@ -38,4 +50,4 @@ También se define un flujo de compilación en GitHub Actions para Windows x64.
 - [Privacidad](docs/PRIVACY.md)
 - [Lista de verificación de v1.0](docs/RELEASE_CHECKLIST.md)
 
-La compatibilidad y el rendimiento deben probarse en cada equipo. El código y las pruebas no sustituyen una prueba real con el motor, el modelo y las computadoras escolares.
+La compilación y las pruebas automáticas no sustituyen una prueba real de inferencia en el equipo escolar. La compatibilidad, velocidad y memoria disponible deben medirse en cada computadora.
