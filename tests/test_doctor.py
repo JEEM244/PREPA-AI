@@ -12,5 +12,12 @@ class DoctorTests(unittest.TestCase):
             self.assertFalse(by_name["Motor llama.cpp"])
             self.assertFalse(by_name["Modelo GGUF"])
             self.assertTrue(by_name["Internet"])
+    def test_reports_unsafe_asset_paths(self):
+        with tempfile.TemporaryDirectory() as folder:
+            config=DEFAULTS.copy()
+            config["server_exe"]="../outside.exe"
+            results=collect_diagnostics(Path(folder),config)
+            by_name={name:ok for name,ok,_ in results}
+            self.assertFalse(by_name["Motor llama.cpp"])
 
 if __name__=="__main__": unittest.main()
