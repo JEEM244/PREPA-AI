@@ -2,8 +2,8 @@ name: Build PREPA AI portable CLI
 on:
   workflow_dispatch:
   push:
-    tags:
-      - 'v*'
+    branches: [main]
+    tags: ['v*']
 jobs:
   build:
     runs-on: windows-latest
@@ -12,12 +12,19 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install build dependency
-        run: python -m pip install -r requirements-build.txt
-      - name: Run tests
+      - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Build executable
-        run: python -m PyInstaller --clean --noconfirm PREPA-AI.spec
+        run: |
+          python -m pip install -r requirements-build.txt
+          python -m PyInstaller --clean --noconfirm PREPA-AI.spec
+      - name: Smoke test executable
+        shell: pwsh
+        run: |
+          if (!(Test-Path 'dist/PREPA-AI.exe')) { throw 'No se generó PREPA-AI.exe' }
+          $file = Get-Item 'dist/PREPA-AI.exe'
+          if ($file.Length -lt 100000) { throw 'El ejecutable parece incompleto.' }
+          Write-Host "PREPA-AI.exe: $($file.Length) bytes"
       - name: Assemble portable folder
         shell: pwsh
         run: |
@@ -27,6 +34,7 @@ jobs:
           Copy-Item config.json.example dist/package/config.json.example
           Copy-Item README.md dist/package/README.txt
           Copy-Item docs/CLI.md dist/package/INSTRUCCIONES.txt
+          Copy-Item docs/USB.md dist/package/USB.txt
       - name: Upload portable package
         uses: actions/upload-artifact@v4
         with:
