@@ -10,16 +10,17 @@ PREPA-AI/
 ├─ prepa-ai.bat
 ├─ config.json
 ├─ runtime/
-│  └─ llama-server.exe
+│  ├─ llama-server.exe
+│  └─ archivos DLL que incluya la misma compilación
 └─ models/
    └─ qwen2.5-1.5b-instruct-q4_k_m.gguf
 ```
 
 ## Motor
 
-Descarga una compilación de Windows x64 de llama.cpp desde su repositorio oficial de GitHub. Usa el archivo `llama-server.exe` de una compilación confiable y compatible con el procesador del equipo. No descargues ejecutables de páginas de terceros desconocidas.
+Descarga una compilación de Windows x64 de llama.cpp desde su repositorio oficial de GitHub. Extrae el contenido necesario de la misma publicación dentro de `runtime/`; no copies solamente `llama-server.exe` si la compilación incluye DLL necesarias junto a él.
 
-La versión del motor debe anotarse junto con la fecha de descarga para poder reproducir las pruebas.
+Usa una compilación confiable y compatible con el procesador del equipo. No descargues ejecutables de páginas de terceros desconocidas. Anota la versión del motor y la fecha de descarga para poder reproducir las pruebas.
 
 ## Modelo
 
@@ -29,7 +30,13 @@ No se incluye un enlace directo ni una versión fijada en esta guía porque las 
 
 ## Verificar archivos
 
-Antes de llevarlos a la USB, calcula SHA-256 en PowerShell:
+Después de extraer los componentes, ejecuta:
+
+```powershell
+.\scripts\check-assets.ps1
+```
+
+También puedes calcular SHA-256 manualmente:
 
 ```powershell
 Get-FileHash .\runtime\llama-server.exe -Algorithm SHA256
