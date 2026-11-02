@@ -8,6 +8,20 @@ from .http_client import request_json
 
 class EngineError(RuntimeError): pass
 
+def resolve_asset(root:Path,configured:str,extension:str)->Path:
+    base=root.resolve()
+    candidate=Path(configured)
+    if candidate.is_absolute():
+        raise EngineError(f"La ruta debe ser relativa a PREPA AI: {configured}")
+    resolved=(base/candidate).resolve()
+    try:
+        resolved.relative_to(base)
+    except ValueError as exc:
+        raise EngineError(f"La ruta sale de la carpeta del proyecto: {configured}") from exc
+    if resolved.suffix.lower()!=extension:
+        raise EngineError(f"Se esperaba un archivo {extension}: {configured}")
+    return resolved
+
 def port_is_available(port:int)->bool:
     with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as probe:
         return probe.connect_ex(("127.0.0.1",int(port)))!=0
@@ -18,8 +32,8 @@ class Engine:
         self.base_url=f"http://127.0.0.1:{config['port']}"
 
     def start(self)->None:
-        server=(self.root/self.config["server_exe"]).resolve()
-        model=(self.root/self.config["model"]).resolve()
+        server=resolve_asset(self.root,self.config["server_exe"],".exe")
+        model=resolve_asset(self.root,self.config["model"],".gguf")
         if not server.is_file(): raise EngineError(f"No se encontró llama-server: {server}")
         if not model.is_file(): raise EngineError(f"No se encontró el modelo GGUF: {model}")
         if not port_is_available(self.config["port"]):
