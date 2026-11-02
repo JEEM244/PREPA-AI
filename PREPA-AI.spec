@@ -1,13 +1,10 @@
-# PyInstaller spec for a portable Windows console executable.
-from PyInstaller.utils.hooks import collect_submodules
-
-hidden = collect_submodules("prepa_ai")
+# PyInstaller one-file spec for the PREPA AI Windows console executable.
 a = Analysis(
     ["cli/launcher.py"],
     pathex=["cli"],
     binaries=[],
     datas=[],
-    hiddenimports=hidden,
+    hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
