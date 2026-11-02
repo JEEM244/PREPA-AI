@@ -1,6 +1,7 @@
 @echo off
 setlocal
 cd /d "%~dp0"
+if not exist "config.json" if exist "config.json.example" copy "config.json.example" "config.json" >nul
 if exist "%~dp0PREPA-AI.exe" (
   "%~dp0PREPA-AI.exe" %*
   exit /b %errorlevel%
