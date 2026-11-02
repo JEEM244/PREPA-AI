@@ -1,36 +1,33 @@
 # Privacidad y limpieza
 
-## Separación de datos
+## Comportamiento de la versión actual
 
-- Código: repositorio Git.
-- Runtime y modelos: directorios descargados, excluidos de Git.
-- Conversaciones, preferencias, caché y logs: directorio local de datos de PREPA AI.
-- Credenciales: no se almacenan en equipos escolares compartidos.
+- Las conversaciones se mantienen en la memoria del proceso mientras la aplicación está abierta.
+- `/limpiar` reinicia la lista de mensajes de la sesión.
+- Al cerrar PREPA AI, la aplicación detiene el proceso local de llama.cpp que inició y termina la sesión.
+- La aplicación no guarda conversaciones, logs de chat, caché de usuario ni claves API en archivos.
+- Si se crea `config.json`, ese archivo conserva opciones de configuración, no el historial de conversación.
+- Los archivos del programa, el runtime y el modelo GGUF permanecen en la carpeta o USB hasta que el usuario los retire.
 
-## Niveles de limpieza
+El comando `/limpiar` reinicia el historial que mantiene la aplicación. No debe interpretarse como una garantía de borrado forense de memoria.
 
-### 1. Limpiar datos de usuario
+## Limpieza manual de la copia
 
-Elimina conversaciones, preferencias locales, caché y logs de PREPA AI. No elimina el código, Git, runtime ni modelos.
+Para retirar PREPA AI de una memoria USB o carpeta:
 
-### 2. Salir y limpiar
+1. Cierra PREPA AI para que detenga el motor local.
+2. Comprueba que estás seleccionando la copia correcta.
+3. Elimina la carpeta de PREPA AI desde el Explorador de archivos, respetando las reglas del equipo o de la escuela.
 
-Detiene los procesos iniciados por PREPA AI y luego ejecuta la limpieza de datos de usuario.
+Esto elimina la copia seleccionada, pero no garantiza el borrado irrecuperable de datos en SSD, copias de seguridad, antivirus, registros del sistema o sincronizaciones externas.
 
-### 3. Eliminar copia local
+## Recomendaciones para equipos compartidos
 
-Después de confirmación adicional, elimina la carpeta local del proyecto, incluida la carpeta `.git`, además del runtime y modelos que estén dentro de esa carpeta.
+- No introduzcas contraseñas, datos personales sensibles ni claves API.
+- No guardes archivos personales dentro de la carpeta de PREPA AI.
+- Usa únicamente componentes descargados de fuentes oficiales o confiables.
+- Respeta las reglas de uso de los equipos y de la red escolar.
 
-## Protecciones obligatorias
+## Funciones que aún no existen
 
-- Mostrar una lista exacta de rutas que se van a eliminar.
-- Exigir confirmación explícita; para eliminar el repositorio, exigir escribir una frase de confirmación.
-- Canonicalizar rutas y comprobar que están dentro de la raíz esperada.
-- Rechazar rutas raíz, rutas vacías, unidades completas, carpetas de usuario y cualquier destino fuera de PREPA AI.
-- No usar comodines amplios ni comandos de borrado sobre rutas construidas sin validar.
-- No borrar el repositorio remoto de GitHub.
-- No afirmar que el borrado es irrecuperable en SSD, copias de seguridad, antivirus, registros del sistema o sincronizaciones externas.
-
-## Recomendación para equipos compartidos
-
-No introducir contraseñas ni claves API personales. Utilizar la aplicación sin iniciar sesión en cuentas personales cuando sea posible. Al terminar, cerrar la aplicación y ejecutar la limpieza de datos.
+Esta versión no incluye un gestor de perfiles, carpeta de datos de usuario, borrado automático de archivos, ni una función para eliminar el proyecto completo. No ejecutes scripts de limpieza externos que no hayas revisado.
