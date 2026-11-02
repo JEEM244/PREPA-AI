@@ -34,10 +34,13 @@ jobs:
           Copy-Item dist/PREPA-AI.exe dist/package/PREPA-AI.exe
           Copy-Item prepa-ai.bat dist/package/prepa-ai.bat
           Copy-Item config.json.example dist/package/config.json.example
+          Copy-Item scripts/check-assets.ps1 dist/package/comprobar-componentes.ps1
           Copy-Item README.md dist/package/README.txt
           Copy-Item docs/CLI.md dist/package/INSTRUCCIONES.txt
           Copy-Item docs/USB.md dist/package/USB.txt
           Copy-Item docs/ASSETS.md dist/package/COMPONENTES.txt
+          Set-Content dist/package/runtime/LEEME.txt 'Extrae aquí el ZIP completo de llama.cpp para Windows x64 CPU. Debe quedar llama-server.exe en esta carpeta y sus DLL junto a él.'
+          Set-Content dist/package/models/LEEME.txt 'Coloca aquí el modelo GGUF. El nombre predeterminado está en config.json.example. Consulta COMPONENTES.txt.'
       - name: Upload portable package
         uses: actions/upload-artifact@v4
         with:
