@@ -2,7 +2,7 @@
 
 ## Estado
 
-La CLI está modularizada y cuenta con pruebas unitarias. Para conversar necesita Windows, el ejecutable portable `PREPA-AI.exe` (o Python 3.10+), un binario compatible de `llama.cpp` y un modelo GGUF. El ejecutable de PREPA AI se puede construir con PyInstaller o mediante el flujo de GitHub Actions para Windows.
+La CLI está modularizada y cuenta con pruebas unitarias. Para conversar necesita Windows, el ejecutable portable `PREPA-AI.exe` (o Python 3.10+), un binario compatible de `llama.cpp` y un modelo GGUF.
 
 ## Estructura del paquete
 
@@ -16,7 +16,7 @@ PREPA-AI/
 └─ models/modelo.gguf
 ```
 
-Copia `config.json.example` a `config.json`. Coloca `llama-server.exe` en `runtime/` y el modelo GGUF en `models/`. Los binarios y pesos no se guardan en Git.
+Copia `config.json.example` a `config.json` si deseas cambiar los valores predeterminados. El lanzador intenta crear esa copia en el primer uso.
 
 ## Construir el ejecutable
 
@@ -26,7 +26,7 @@ En Windows con Python 3.10+:
 .\scripts\build.ps1
 ```
 
-El paquete se prepara en `dist/package/`. También puedes ejecutar manualmente el workflow **Build PREPA AI portable CLI** desde la pestaña Actions del repositorio y descargar el artefacto de Windows.
+El paquete se prepara en `dist/package/`. También puedes descargar el artefacto de Windows desde la pestaña Actions del repositorio cuando termine **Build PREPA AI portable CLI**.
 
 ## Uso
 
@@ -36,14 +36,20 @@ Desde PowerShell o CMD:
 .\prepa-ai.bat
 ```
 
-Comandos disponibles:
+Opciones que funcionan antes de iniciar el motor:
+
+- `PREPA-AI.exe --version`: mostrar versión.
+- `PREPA-AI.exe --ayuda`: mostrar comandos.
+- `PREPA-AI.exe --diagnostico`: comprobar requisitos y archivos locales.
+
+Comandos durante la conversación:
 
 - `/ayuda`: mostrar comandos.
 - `/estado`: revisar si el motor responde.
 - `/limpiar`: borrar la conversación de la memoria.
 - `/modelo`: mostrar la ruta del modelo.
 - `/diagnostico`: revisar archivos y requisitos.
-- `/version`: mostrar la versión.
+- `/version`: mostrar versión.
 - `/salir`: detener el motor y cerrar.
 
 ## Privacidad y red
@@ -52,10 +58,8 @@ El servidor se configura exclusivamente en `127.0.0.1`. La CLI no consulta prove
 
 ## Pruebas
 
-Desde la raíz:
-
 ```powershell
 py -3 -m unittest discover -s tests -v
 ```
 
-Las pruebas unitarias no sustituyen una prueba real en Windows con llama.cpp y el modelo elegido. Consulta también [Uso desde USB](USB.md), [Portabilidad](PORTABILITY.md) y [Solución de problemas](TROUBLESHOOTING.md).
+Las pruebas unitarias no sustituyen una prueba real en Windows con llama.cpp y el modelo elegido. Consulta [componentes locales](ASSETS.md), [uso desde USB](USB.md) y [solución de problemas](TROUBLESHOOTING.md).
