@@ -46,15 +46,19 @@ Comandos durante la conversación:
 
 - `/ayuda`: mostrar comandos.
 - `/estado`: revisar si el motor responde.
-- `/limpiar`: borrar la conversación de la memoria.
+- `/limpiar`: reiniciar la conversación mantenida en memoria.
 - `/modelo`: mostrar la ruta del modelo.
 - `/diagnostico`: revisar archivos y requisitos.
 - `/version`: mostrar versión.
 - `/salir`: detener el motor y cerrar.
 
+## Límite del historial
+
+La opción `max_history_turns` controla cuántos intercambios completos (mensaje del usuario y respuesta del asistente) se conservan como máximo. El mensaje nuevo cuenta dentro del límite enviado al modelo. Con el valor predeterminado de 12, la petición puede incluir hasta 11 intercambios anteriores más el mensaje actual. Si una petición falla, el historial anterior se conserva.
+
 ## Privacidad y red
 
-El servidor se configura exclusivamente en `127.0.0.1`. La CLI no consulta proveedores de IA por internet. El historial se conserva únicamente en memoria; `/limpiar` lo reinicia y cerrar la aplicación lo descarta. No se escriben conversaciones ni claves API en disco.
+El servidor se configura exclusivamente en `127.0.0.1`. La CLI no consulta proveedores de IA por internet. Los mensajes se mantienen en memoria durante la sesión; `/limpiar` reinicia el historial de la aplicación y cerrar la aplicación descarta esa sesión. No se escriben conversaciones ni claves API en disco.
 
 ## Pruebas
 
