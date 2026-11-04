@@ -1,27 +1,33 @@
-# Modelo local
+# Modelo para las primeras pruebas
 
-## Modelo inicial seleccionado
+Para la primera prueba de PREPA-AI elegí **Qwen2.5-1.5B-Instruct-GGUF, Q4_K_M**.
 
-**Qwen2.5-1.5B-Instruct-GGUF — Q4_K_M**
+Lo elegí como punto de partida porque es un modelo relativamente pequeño comparado con otros modelos de lenguaje. Aun así, no significa que vaya a funcionar rápido en cualquier computadora.
 
-- Repositorio: [Qwen en Hugging Face](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF)
+## Datos del modelo
+
 - Archivo: `qwen2.5-1.5b-instruct-q4_k_m.gguf`
-- Tamaño publicado: aproximadamente 1.12 GB.
-- Licencia indicada en la ficha: Apache 2.0.
-- Formato: GGUF, para uso con llama.cpp.
+- Formato: GGUF.
+- Uso previsto: ejecución local con llama.cpp.
+- Licencia indicada en su ficha: Apache 2.0.
+- Fuente: [Qwen2.5 1.5B Instruct GGUF](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF).
 
-La selección es un punto de partida para probar en computadoras con memoria limitada; no garantiza una velocidad determinada ni que todos los equipos escolares puedan ejecutarlo.
+Revisa la página del modelo antes de descargarlo, porque el tamaño y los archivos disponibles pueden cambiar.
 
-## Antes de descargar
+## Antes de probarlo
 
-- Verifica que estés en el repositorio oficial del modelo.
-- Comprueba el nombre y la cuantización Q4_K_M.
-- Revisa la licencia y las condiciones de uso.
-- Asegúrate de tener espacio suficiente en la USB.
-- No uses copias de origen desconocido.
+- Descarga desde la página oficial.
+- Revisa que el archivo sea la cuantización Q4_K_M.
+- Comprueba que tengas espacio suficiente.
+- Guarda el nombre de la versión y el origen del archivo.
+- No uses copias de páginas desconocidas.
 
 ## Memoria y velocidad
 
-La RAM necesaria depende del modelo, la cuantización, el contexto y el motor. PREPA AI inicia con un contexto moderado de 2048 tokens y limita el historial enviado en cada solicitud. Si el equipo presenta errores de memoria, habrá que probar un modelo más pequeño o reducir el contexto.
+El uso de RAM depende del modelo, la cuantización, el contexto y el motor. También cambia según la computadora.
 
-No se promete una velocidad concreta. Las pruebas reales en los equipos destino son obligatorias.
+La configuración inicial del proyecto contempla un contexto moderado, pero todavía falta conectar el modelo y medir el consumo real en los equipos donde se quiera usar.
+
+## Estado
+
+La selección del modelo ya está documentada, pero la inferencia local todavía no está integrada ni validada desde PREPA-AI. No hay que confundir tener el archivo GGUF con tener el asistente funcionando.
