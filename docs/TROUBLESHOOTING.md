@@ -1,29 +1,33 @@
-# Solución de problemas
+# Problemas comunes
+
+Esta guía reúne algunos errores que pueden aparecer al preparar PREPA-AI. La integración completa con llama.cpp todavía está pendiente, así que algunos casos son comprobaciones para la etapa de desarrollo y no una solución garantizada.
 
 ## No se encuentra Python
 
-La versión actual necesita Python 3.10+ si no se está usando `PREPA-AI.exe`. La compilación portable con PyInstaller está preparada en el proyecto, pero debe probarse en Windows antes de distribuirse.
+Para ejecutar las herramientas de desarrollo se necesita Python 3.10 o superior. El ejecutable portable se construye con el script del proyecto.
 
 ## No se encuentra llama-server
 
-Comprueba que el archivo se llame exactamente `llama-server.exe` y esté en `runtime/`, o corrige `server_exe` en `config.json`.
+Comprueba que la descarga de llama.cpp corresponda a Windows x64 y que los archivos estén en la carpeta esperada. No mezcles el ejecutable con DLL de otra versión.
+
+La conexión de este motor con la CLI todavía está pendiente.
 
 ## No se encuentra el modelo
 
-Comprueba que el archivo GGUF esté en `models/` y que la ruta coincida con `model` en `config.json`.
+Comprueba que el archivo GGUF esté completo y que el nombre coincida con la configuración. Revisa también que hayas descargado la cuantización que elegiste.
 
 ## El puerto está ocupado
 
-Cierra otra instancia de PREPA AI. Si el puerto sigue ocupado, cambia `port` en `config.json` por un valor libre entre 1024 y 65535.
+Si estás probando el servidor local por separado, puede que otro proceso esté usando el puerto configurado. Cierra únicamente el proceso que hayas iniciado para esa prueba o usa otro puerto libre.
 
 ## El motor se cierra al iniciar
 
-Puede haber incompatibilidad entre el binario de llama.cpp, el modelo GGUF y las instrucciones de CPU del equipo. Comprueba que el archivo del modelo esté completo y usa una compilación compatible.
+Puede ser un problema de compatibilidad entre la compilación de llama.cpp, el modelo o el procesador del equipo. Revisa que todos los archivos sean de la misma descarga y que el modelo no esté incompleto.
 
-## Responde muy lento o falla por memoria
+## Responde lento o aparece un error de memoria
 
-Reduce `context_size`, `max_tokens` o el tamaño del modelo. Cierra programas que no necesites. La velocidad depende del equipo.
+El rendimiento depende de la RAM, el procesador, el tamaño del modelo y el contexto. Para medirlo, cierra programas que no necesites y registra qué equipo y configuración utilizaste.
 
 ## No hay internet
 
-La inferencia local no requiere internet después de tener el runtime y el modelo descargados. La descarga inicial sí requiere una conexión autorizada.
+La meta es que la inferencia funcione sin conexión después de descargar los componentes. La descarga inicial sí necesita internet. El funcionamiento completo sin conexión todavía debe probarse desde PREPA-AI.
