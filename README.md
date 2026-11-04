@@ -1,53 +1,50 @@
-# PREPA AI
+# PREPA-AI
 
-Asistente educativo portátil para Windows. La primera interfaz es la **CLI**, pensada para PowerShell y CMD, y para funcionar sin internet una vez que el motor y el modelo estén disponibles localmente.
+PREPA-AI es un asistente para usar desde la terminal de Windows. Quiero que pueda servir como apoyo para estudiar y trabajar en proyectos de la escuela, incluso cuando no haya internet.
 
-> **Estado:** CLI modular, pruebas unitarias y compilación automática de un ejecutable Windows comprobadas en GitHub Actions. La ejecución real de inferencia todavía requiere incorporar y probar llama.cpp y un modelo GGUF compatible.
+Estoy empezando por una CLI para PowerShell y CMD. La intención es que se pueda llevar en una memoria USB y ejecutar en distintas computadoras.
 
-## Obtener el ejecutable
+## Estado actual
 
-En GitHub abre **Actions → Build PREPA AI portable CLI**, selecciona la ejecución más reciente que haya terminado correctamente y descarga el artefacto `PREPA-AI-Windows-x64`.
+La estructura de la CLI, los comandos básicos, las pruebas y la compilación del ejecutable están preparados. **La respuesta real de un modelo todavía no está integrada ni comprobada**: falta conectar llama.cpp y probar un modelo GGUF.
 
-También puedes construirlo en Windows con Python 3.10+:
+Por eso, todavía no lo considero una IA local terminada.
+
+## Comandos disponibles en la CLI
+
+- `/ayuda`: muestra los comandos.
+- `/estado`: consulta el estado.
+- `/limpiar`: limpia la conversación actual.
+- `/modelo`: muestra la configuración del modelo.
+- `/diagnostico`: revisa componentes.
+- `/version`: muestra la versión.
+- `/salir`: cierra el programa.
+
+## Preparar el proyecto
+
+Se necesita Python 3.10 o superior para construirlo desde el código:
 
 ```powershell
 .\scripts\build.ps1
 ```
 
-El paquete local se prepara en `dist/package/`.
+El paquete se prepara en `dist/package/`.
 
-## Preparar el motor y el modelo
+Para usar un modelo local todavía hay que preparar llama.cpp y colocar un modelo GGUF compatible en la carpeta indicada. Los pasos están en [docs/ASSETS.md](docs/ASSETS.md).
 
-1. Extrae una compilación confiable de llama.cpp dentro de `runtime/`, conservando sus DLL necesarias.
-2. Coloca el modelo GGUF elegido dentro de `models/`.
-3. Ejecuta `scripts/check-assets.ps1` para comprobar que los archivos estén presentes.
-4. Ejecuta `prepa-ai.bat`. El lanzador crea `config.json` desde el ejemplo si hace falta.
+## Qué quiero conseguir
 
-Consulta [docs/ASSETS.md](docs/ASSETS.md) antes de descargar componentes.
-
-## Comandos
-
-Durante la conversación: `/ayuda`, `/estado`, `/limpiar`, `/modelo`, `/diagnostico`, `/version` y `/salir`.
-
-Antes de iniciar el motor: `PREPA-AI.exe --version`, `PREPA-AI.exe --ayuda` o `PREPA-AI.exe --diagnostico`.
-
-## Diseño y privacidad
-
-- Motor local llama.cpp con modelo GGUF.
-- API del motor enlazada únicamente a `127.0.0.1`.
-- El historial vive solo en memoria y se descarta al cerrar.
-- No se guardan claves API ni conversaciones en disco.
-- No se intenta evadir filtros ni controles de la red escolar.
+- Que funcione sin conexión después de preparar el motor y el modelo.
+- Que los archivos necesarios puedan ir junto al programa.
+- Que el historial no se guarde automáticamente en disco.
+- Que los comandos sean fáciles de usar desde la terminal.
 
 ## Documentación
 
-- [CLI](docs/CLI.md)
-- [Componentes locales](docs/ASSETS.md)
+- [Comandos](docs/CLI.md)
+- [Archivos del motor y modelo](docs/ASSETS.md)
 - [Uso desde USB](docs/USB.md)
-- [Portabilidad](docs/PORTABILITY.md)
-- [Modelo local](docs/MODEL.md)
-- [Solución de problemas](docs/TROUBLESHOOTING.md)
 - [Privacidad](docs/PRIVACY.md)
-- [Lista de verificación de v1.0](docs/RELEASE_CHECKLIST.md)
+- [Problemas comunes](docs/TROUBLESHOOTING.md)
 
-La compilación y las pruebas automáticas no sustituyen una prueba real de inferencia en el equipo escolar. La compatibilidad, velocidad y memoria disponible deben medirse en cada computadora.
+Es un proyecto en desarrollo. La velocidad y el funcionamiento dependerán del modelo, del equipo y de la memoria disponible.
