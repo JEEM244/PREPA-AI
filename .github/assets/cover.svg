@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-labelledby="t d">
+<title id="t">PREPA-AI</title><desc id="d">Un asistente de estudio pensado para la terminal de Windows</desc>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#091B1B"/><stop offset="1" stop-color="#0E3132"/></linearGradient>
+ <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#68E0B3" stop-opacity=".8"/><stop offset="1" stop-color="#68E0B3" stop-opacity=".08"/></linearGradient>
+ <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#fff" opacity=".12"/></pattern>
+</defs>
+<rect width="1200" height="320" rx="24" fill="url(#bg)"/>
+<rect width="1200" height="320" rx="24" fill="url(#dots)"/>
+<path d="M0 260 C230 220 360 340 610 280 S980 210 1200 260 V320 H0Z" fill="#68E0B3" opacity=".055"/>
+<g font-family="Inter,Segoe UI,Arial,sans-serif">
+ <rect x="66" y="54" width="158" height="30" rx="15" fill="#68E0B3" opacity=".18" stroke="#68E0B3" stroke-opacity=".55"/>
+ <text x="145" y="74" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="2" fill="#68E0B3">CLI PARA WINDOWS</text>
+ <text x="66" y="158" font-size="52" font-weight="750" letter-spacing="-1.5" fill="#F8FAFC">PREPA-AI</text>
+ <text x="69" y="199" font-size="19" fill="#D5DFEA">Un asistente de estudio pensado para la terminal de Windows</text>
+ <path d="M68 229 H390" stroke="#68E0B3" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+</g>
+
+<g transform="translate(715 43)">
+ <rect width="385" height="228" rx="14" fill="#071111" stroke="#2A7D67" stroke-width="2"/>
+ <rect width="385" height="36" rx="14" fill="#123A35"/><rect y="23" width="385" height="13" fill="#123A35"/>
+ <circle cx="22" cy="18" r="4" fill="#F18B7B"/><circle cx="38" cy="18" r="4" fill="#E3BE71"/><circle cx="54" cy="18" r="4" fill="#68E0B3"/>
+ <g font-family="Consolas,monospace" font-size="13">
+ <text x="24" y="70" fill="#68E0B3">PREPA-AI &gt; /ayuda</text>
+ <text x="24" y="99" fill="#D4EAE2">/estado       revisar componentes</text>
+ <text x="24" y="126" fill="#D4EAE2">/diagnostico  comprobar entorno</text>
+ <text x="24" y="153" fill="#D4EAE2">/modelo       ver configuracion</text>
+ <text x="24" y="180" fill="#D4EAE2">/salir        cerrar programa</text>
+ <rect x="24" y="198" width="9" height="14" rx="2" fill="#68E0B3"/>
+ <text x="44" y="210" fill="#7BA99A">listo para recibir un comando</text>
+ </g>
+ <path d="M410 55h60m-17-17 17 17-17 17" fill="none" stroke="#68E0B3" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>
+</g>
+<circle cx="1120" cy="56" r="85" fill="#68E0B3" opacity=".05"/>
+<circle cx="1120" cy="56" r="54" fill="none" stroke="#68E0B3" stroke-opacity=".24"/>
+</svg>
