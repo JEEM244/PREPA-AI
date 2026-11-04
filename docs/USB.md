@@ -1,27 +1,34 @@
-# Uso desde USB
+# PREPA-AI desde una USB
 
-## Preparación
+La idea del proyecto es poder llevarlo en una memoria USB y usarlo en distintas computadoras con Windows. Esta parte todavía necesita pruebas en equipos diferentes.
 
-1. Construye o descarga el paquete portable de PREPA AI.
-2. Copia el paquete completo a una carpeta de la USB.
-3. Coloca el ejecutable compatible de llama.cpp como `runtime/llama-server.exe`.
-4. Coloca el modelo GGUF elegido dentro de `models/`.
-5. Copia `config.json.example` como `config.json`.
-6. Prueba todo en tu computadora antes de llevarlo a la escuela.
+## Preparación planeada
 
-## En la computadora escolar
+Cuando la integración del modelo esté lista, el paquete deberá incluir:
 
-- Conecta la USB y abre la carpeta del proyecto.
-- Ejecuta `prepa-ai.bat` desde CMD o PowerShell.
-- No necesitas abrir una página web ni conectarte a un servicio de IA.
-- Al terminar escribe `/salir`.
+1. El ejecutable de PREPA-AI.
+2. El lanzador `prepa-ai.bat`.
+3. La carpeta `runtime/` con la compilación compatible de llama.cpp.
+4. La carpeta `models/` con el modelo GGUF.
+5. El archivo de configuración local.
 
-La ejecución depende de las reglas del equipo escolar. Si Windows, el antivirus o las políticas del laboratorio bloquean el programa, no intentes saltarte esos controles: solicita autorización al responsable.
+El motor y el modelo se descargan por separado. Consulta [ASSETS.md](ASSETS.md) para revisar las fuentes y los archivos elegidos.
+
+## Estado actual
+
+La CLI y su compilación tienen pruebas, pero la conversación con un modelo local todavía no está terminada. Antes de usar esta guía como procedimiento final, falta conectar llama.cpp y probar el paquete completo en Windows.
+
+## En una computadora de la escuela
+
+Primero hay que confirmar que las reglas del laboratorio permitan ejecutar programas desde una USB. Si Windows, el antivirus o las políticas del equipo bloquean la aplicación, no intentes saltarte esos controles; pregunta al responsable del laboratorio.
 
 ## Privacidad
 
-La conversación se mantiene en memoria y se descarta al cerrar. Evita escribir contraseñas, datos personales o información privada de otras personas. No guardes claves API en la USB.
+No escribas contraseñas, datos personales ni información privada de otras personas. La idea es que las conversaciones se mantengan en la sesión y no se guarden como historial, pero ese comportamiento debe volver a comprobarse cuando se integre el motor.
 
-## Rendimiento
+## Pruebas pendientes
 
-El modelo se ejecuta usando los recursos de la computadora anfitriona. Prueba primero el modelo en el equipo menos potente donde planees usarlo.
+- Probar en una computadora sin Python instalado.
+- Probar después de copiar el paquete a una USB.
+- Comprobar el funcionamiento sin internet después de descargar los componentes.
+- Medir el uso de memoria y la velocidad en equipos de distintas capacidades.
