@@ -1,64 +1,50 @@
-# CLI de PREPA AI
+# Uso de la CLI
 
-## Estado
+Esta carpeta contiene la interfaz de PREPA-AI para PowerShell y CMD. La idea es que los comandos sean sencillos y que el programa pueda llevarse en una USB.
 
-La CLI está modularizada y cuenta con pruebas unitarias. Para conversar necesita Windows, el ejecutable portable `PREPA-AI.exe` (o Python 3.10+), un binario compatible de `llama.cpp` y un modelo GGUF.
+## Estado actual
 
-## Estructura del paquete
-
-```text
-PREPA-AI/
-├─ PREPA-AI.exe
-├─ prepa-ai.bat
-├─ config.json
-├─ config.json.example
-├─ runtime/llama-server.exe
-└─ models/modelo.gguf
-```
-
-Copia `config.json.example` a `config.json` si deseas cambiar los valores predeterminados. El lanzador intenta crear esa copia en el primer uso.
+La CLI tiene su estructura, comandos, pruebas y proceso para generar un ejecutable. **La conexión con llama.cpp y la respuesta de un modelo GGUF todavía no están terminadas ni probadas.** Por ahora no se debe considerar que el asistente ya puede mantener una conversación con un modelo local.
 
 ## Construir el ejecutable
 
-En Windows con Python 3.10+:
+En Windows con Python 3.10 o superior:
 
 ```powershell
 .\scripts\build.ps1
 ```
 
-El paquete se prepara en `dist/package/`. También puedes descargar el artefacto de Windows desde la pestaña Actions del repositorio cuando termine **Build PREPA AI portable CLI**.
+El paquete se prepara en `dist/package/`. También se puede descargar el artefacto generado por GitHub Actions cuando la compilación termine correctamente.
 
-## Uso
+## Comandos de inicio
 
 Desde PowerShell o CMD:
+
+```powershell
+PREPA-AI.exe --version
+PREPA-AI.exe --ayuda
+PREPA-AI.exe --diagnostico
+```
+
+El lanzador para la carpeta portable es:
 
 ```powershell
 .\prepa-ai.bat
 ```
 
-Opciones que funcionan antes de iniciar el motor:
+## Comandos de la interfaz
 
-- `PREPA-AI.exe --version`: mostrar versión.
-- `PREPA-AI.exe --ayuda`: mostrar comandos.
-- `PREPA-AI.exe --diagnostico`: comprobar requisitos y archivos locales.
+La interfaz contempla estos comandos:
 
-Comandos durante la conversación:
-
-- `/ayuda`: mostrar comandos.
-- `/estado`: revisar si el motor responde.
-- `/limpiar`: reiniciar la conversación mantenida en memoria.
-- `/modelo`: mostrar la ruta del modelo.
+- `/ayuda`: mostrar la lista de comandos.
+- `/estado`: revisar el estado del motor.
+- `/limpiar`: limpiar la conversación de la sesión.
+- `/modelo`: mostrar la configuración del modelo.
 - `/diagnostico`: revisar archivos y requisitos.
-- `/version`: mostrar versión.
-- `/salir`: detener el motor y cerrar.
+- `/version`: mostrar la versión.
+- `/salir`: cerrar la aplicación.
 
-## Límite del historial
-
-La opción `max_history_turns` controla cuántos intercambios completos (mensaje del usuario y respuesta del asistente) se conservan como máximo. El mensaje nuevo cuenta dentro del límite enviado al modelo. Con el valor predeterminado de 12, la petición puede incluir hasta 11 intercambios anteriores más el mensaje actual. Si una petición falla, el historial anterior se conserva.
-
-## Privacidad y red
-
-El servidor se configura exclusivamente en `127.0.0.1`. La CLI no consulta proveedores de IA por internet. Los mensajes se mantienen en memoria durante la sesión; `/limpiar` reinicia el historial de la aplicación y cerrar la aplicación descarta esa sesión. No se escriben conversaciones ni claves API en disco.
+Algunos comandos dependen de que la integración con el motor esté terminada. Que aparezcan en la CLI no significa que la inferencia local ya funcione.
 
 ## Pruebas
 
@@ -66,4 +52,11 @@ El servidor se configura exclusivamente en `127.0.0.1`. La CLI no consulta prove
 py -3 -m unittest discover -s tests -v
 ```
 
-Las pruebas unitarias no sustituyen una prueba real en Windows con llama.cpp y el modelo elegido. Consulta [componentes locales](ASSETS.md), [uso desde USB](USB.md) y [solución de problemas](TROUBLESHOOTING.md).
+Estas pruebas revisan partes del programa, pero no sustituyen una prueba completa con llama.cpp y un modelo GGUF.
+
+## Archivos relacionados
+
+- [Preparar los componentes](ASSETS.md)
+- [Uso desde USB](USB.md)
+- [Portabilidad](PORTABILITY.md)
+- [Privacidad](PRIVACY.md)
